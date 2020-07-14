@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.acs.admin.ds.dao.SysRolePermissionDao">
+
+	<resultMap id="BaseResultMap" type="com.acs.admin.ds.entity.SysRolePermission">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+		<result column="id" jdbcType="INTEGER" property="id"/>
+		<result column="insert_time" jdbcType="TIMESTAMP" property="insertTime"/>
+		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+		<result column="role_id" jdbcType="INTEGER" property="roleId"/>
+		<result column="permission_id" jdbcType="INTEGER" property="permissionId"/>
+	</resultMap>
+
+	<sql id="Base_Column_List">
+        		id,
+		insert_time,
+		update_time,
+		role_id,
+		permission_id
+    </sql> 
+
+    <select id="find" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_role_permission
+        where id = #{id}
+    </select>
+
+    <delete id="delete" parameterType="java.lang.Integer">
+        delete
+        from sys_role_permission
+        where id = #{id}
+    </delete>
+
+    <insert id="insert" parameterType="com.acs.admin.ds.entity.SysRolePermission" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_role_permission
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            
+            <if test="id != null">
+            	id,
+            </if>
+
+            <if test="insertTime != null">
+            	insert_time,
+            </if>
+
+            <if test="updateTime != null">
+            	update_time,
+            </if>
+
+            <if test="roleId != null">
+            	role_id,
+            </if>
+
+            <if test="permissionId != null">
+            	permission_id,
+            </if>
+
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            
+            <if test="id != null">
+                #{id},
+            </if>
+
+            <if test="insertTime != null">
+                #{insertTime},
+            </if>
+
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>
+
+            <if test="roleId != null">
+                #{roleId},
+            </if>
+
+            <if test="permissionId != null">
+                #{permissionId},
+            </if>
+
+        </trim>
+    </insert>
+
+
+    <update id="update" parameterType="com.acs.admin.ds.entity.SysRolePermission">
+        update sys_role_permission
+        <set>
+            
+            <if test="id != null">
+                and id = #{id}
+            </if>
+
+            <if test="insertTime != null">
+                and insert_time = #{insertTime}
+            </if>
+
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+
+            <if test="roleId != null">
+                and role_id = #{roleId}
+            </if>
+
+            <if test="permissionId != null">
+                and permission_id = #{permissionId}
+            </if>
+
+        </set>
+        where id = #{id}
+    </update>
+</mapper>

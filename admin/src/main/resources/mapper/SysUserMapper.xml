@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.acs.admin.ds.dao.SysUserDao">
+
+	<resultMap id="BaseResultMap" type="com.acs.admin.ds.entity.SysUser">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+		<result column="id" jdbcType="INTEGER" property="id"/>
+		<result column="insert_time" jdbcType="TIMESTAMP" property="insertTime"/>
+		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+		<result column="username" jdbcType="VARCHAR" property="username"/>
+		<result column="password" jdbcType="VARCHAR" property="password"/>
+		<result column="nickname" jdbcType="VARCHAR" property="nickname"/>
+	</resultMap>
+
+	<sql id="Base_Column_List">
+        		id,
+		insert_time,
+		update_time,
+		username,
+		password,
+		nickname
+    </sql> 
+
+    <select id="find" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_user
+        where id = #{id}
+    </select>
+
+    <delete id="delete" parameterType="java.lang.Integer">
+        delete
+        from sys_user
+        where id = #{id}
+    </delete>
+
+    <insert id="insert" parameterType="com.acs.admin.ds.entity.SysUser" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            
+            <if test="id != null">
+            	id,
+            </if>
+
+            <if test="insertTime != null">
+            	insert_time,
+            </if>
+
+            <if test="updateTime != null">
+            	update_time,
+            </if>
+
+            <if test="username != null">
+            	username,
+            </if>
+
+            <if test="password != null">
+            	password,
+            </if>
+
+            <if test="nickname != null">
+            	nickname,
+            </if>
+
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            
+            <if test="id != null">
+                #{id},
+            </if>
+
+            <if test="insertTime != null">
+                #{insertTime},
+            </if>
+
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>
+
+            <if test="username != null">
+                #{username},
+            </if>
+
+            <if test="password != null">
+                #{password},
+            </if>
+
+            <if test="nickname != null">
+                #{nickname},
+            </if>
+
+        </trim>
+    </insert>
+
+
+    <update id="update" parameterType="com.acs.admin.ds.entity.SysUser">
+        update sys_user
+        <set>
+            
+            <if test="id != null">
+                and id = #{id}
+            </if>
+
+            <if test="insertTime != null">
+                and insert_time = #{insertTime}
+            </if>
+
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+
+            <if test="username != null">
+                and username = #{username}
+            </if>
+
+            <if test="password != null">
+                and password = #{password}
+            </if>
+
+            <if test="nickname != null">
+                and nickname = #{nickname}
+            </if>
+
+        </set>
+        where id = #{id}
+    </update>
+</mapper>
