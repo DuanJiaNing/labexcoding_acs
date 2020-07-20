@@ -26,5 +26,4 @@ public class ExceptionController {
         log.error("未知错误", e);
         return Results.error("未知错误");
     }
-
 }
