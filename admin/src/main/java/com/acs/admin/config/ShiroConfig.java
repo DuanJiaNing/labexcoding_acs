@@ -19,8 +19,15 @@ public class ShiroConfig {
     @Bean
     ShiroFilterChainDefinition shiroFilterChainDefinition() {
         DefaultShiroFilterChainDefinition chainDefinition = new DefaultShiroFilterChainDefinition();
-        // all paths are managed via annotations
-        chainDefinition.addPathDefinition("/**", "anon");
+        // swagger 文档相关的接口允许匿名访问
+        chainDefinition.addPathDefinition("/swagger**", "anon");
+        chainDefinition.addPathDefinition("/webjars**", "anon");
+
+        // 登录接口允许匿名访问
+        chainDefinition.addPathDefinition("/api/login", "anon");
+
+        // 所有 api 开头的接口都需要登录
+        chainDefinition.addPathDefinition("/api/**", "authc");
         return chainDefinition;
     }
 }

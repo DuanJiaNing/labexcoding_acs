@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.acs.admin.ds.dao.SysUserDao">
-	<resultMap id="BaseResultMap" type="com.acs.admin.ds.entity.SysUser">
+    <resultMap id="BaseResultMap" type="com.acs.admin.ds.entity.SysUser">
         <id column="id" jdbcType="INTEGER" property="id"/>
-		<result column="id" jdbcType="INTEGER" property="id"/>
-		<result column="insert_time" jdbcType="TIMESTAMP" property="insertTime"/>
-		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
-		<result column="username" jdbcType="VARCHAR" property="username"/>
-		<result column="password" jdbcType="VARCHAR" property="password"/>
-		<result column="nickname" jdbcType="VARCHAR" property="nickname"/>
-	</resultMap>
+        <result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="insert_time" jdbcType="TIMESTAMP" property="insertTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="nickname" jdbcType="VARCHAR" property="nickname"/>
+    </resultMap>
 
-	<sql id="Base_Column_List">
-        		id,
+    <sql id="Base_Column_List">
+        id,
 		insert_time,
 		update_time,
 		username,
 		password,
 		nickname
-    </sql> 
+    </sql>
 
     <select id="find" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
@@ -34,8 +34,13 @@
         where username = #{username}
     </select>
 
-    <select id="findAllPermissions" resultType="com.acs.admin.ds.entity.SysPermission">
-
+    <select id="findAllPermissions" resultType="java.lang.String">
+        SELECT sp.permission_code
+        FROM sys_user su
+                 LEFT JOIN sys_user_role sur ON su.id = sur.user_id
+                 LEFT JOIN sys_role_permission srp ON sur.role_id = srp.role_id
+                 LEFT JOIN sys_permission sp ON srp.permission_id = sp.id
+        WHERE username = #{username}
     </select>
 
     <delete id="delete" parameterType="java.lang.Integer">
@@ -47,34 +52,34 @@
     <insert id="insert" parameterType="com.acs.admin.ds.entity.SysUser" useGeneratedKeys="true" keyProperty="id">
         insert into sys_user
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            
+
             <if test="id != null">
-            	id,
+                id,
             </if>
 
             <if test="insertTime != null">
-            	insert_time,
+                insert_time,
             </if>
 
             <if test="updateTime != null">
-            	update_time,
+                update_time,
             </if>
 
             <if test="username != null">
-            	username,
+                username,
             </if>
 
             <if test="password != null">
-            	password,
+                password,
             </if>
 
             <if test="nickname != null">
-            	nickname,
+                nickname,
             </if>
 
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            
+
             <if test="id != null">
                 #{id},
             </if>
@@ -106,7 +111,7 @@
     <update id="update" parameterType="com.acs.admin.ds.entity.SysUser">
         update sys_user
         <set>
-            
+
             <if test="id != null">
                 and id = #{id}
             </if>

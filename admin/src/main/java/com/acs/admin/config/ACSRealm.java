@@ -1,7 +1,6 @@
 package com.acs.admin.config;
 
 import com.acs.admin.ds.dao.SysUserDao;
-import com.acs.admin.ds.entity.SysPermission;
 import com.acs.admin.ds.entity.SysUser;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -12,6 +11,7 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Collection;
 import java.util.List;
@@ -34,8 +34,11 @@ public class ACSRealm extends AuthorizingRealm {
 
     private Collection<Permission> loadPermissions(PrincipalCollection principals) {
         String username = (String) principals.getPrimaryPrincipal();
-        List<SysPermission> ps = sysUserDao.findAllPermissions(username);
-        return ps.stream().map(p -> new WildcardPermission(p.getPermissionCode())).collect(Collectors.toList());
+        List<String> ps = sysUserDao.findAllPermissions(username);
+        if (CollectionUtils.isEmpty(ps)) {
+            return null;
+        }
+        return ps.stream().map(WildcardPermission::new).collect(Collectors.toList());
     }
 
     @Override

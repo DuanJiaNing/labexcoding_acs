@@ -18,6 +18,4 @@ shiro:
   sessionManager:
     sessionIdCookieEnabled: true
     sessionIdUrlRewritingEnabled: true
-  unauthorizedUrl: /unauthorizedurl
-  loginUrl: /login
-  successUrl: /index
+  loginUrl: /login.html
