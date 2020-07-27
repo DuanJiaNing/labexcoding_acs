@@ -1,6 +1,8 @@
 package com.acs.admin.api;
 
+import com.acs.admin.service.UserService;
 import com.acs.admin.utils.Results;
+import com.acs.admin.utils.Sessions;
 import io.swagger.annotations.ApiOperation;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
@@ -10,6 +12,7 @@ import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +23,9 @@ import java.io.Serializable;
 
 @RestController
 public class LoginController {
+
+    @Autowired
+    private UserService userService;
 
     @Data
     public static class LoginRequest implements Serializable {
@@ -58,6 +64,9 @@ public class LoginController {
         UsernamePasswordToken token = new UsernamePasswordToken(req.getUsername(), req.getPassword());
         try {
             subject.login(token);
+
+            Integer id = userService.findUserID(req.getUsername());
+            Sessions.setAttribute(Sessions.KEY_UID, id);
             return Results.success();
         } catch (UnknownAccountException e) {
             return Results.userInputError("用户不存在");

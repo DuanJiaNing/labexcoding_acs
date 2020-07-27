@@ -2,26 +2,32 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.acs.admin.ds.dao.SysRoleDao">
 
-	<resultMap id="BaseResultMap" type="com.acs.admin.ds.entity.SysRole">
+    <resultMap id="BaseResultMap" type="com.acs.admin.ds.entity.SysRole">
         <id column="id" jdbcType="INTEGER" property="id"/>
-		<result column="id" jdbcType="INTEGER" property="id"/>
-		<result column="insert_time" jdbcType="TIMESTAMP" property="insertTime"/>
-		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
-		<result column="role_name" jdbcType="VARCHAR" property="roleName"/>
-	</resultMap>
+        <result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="insert_time" jdbcType="TIMESTAMP" property="insertTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="role_name" jdbcType="VARCHAR" property="roleName"/>
+    </resultMap>
 
-	<sql id="Base_Column_List">
-        		id,
+    <sql id="Base_Column_List">
+        id,
 		insert_time,
 		update_time,
 		role_name
-    </sql> 
+    </sql>
 
     <select id="find" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from sys_role
         where id = #{id}
+    </select>
+
+    <select id="findAll" resultType="com.acs.admin.ds.entity.SysRole">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_role
     </select>
 
     <delete id="delete" parameterType="java.lang.Integer">
@@ -33,26 +39,26 @@
     <insert id="insert" parameterType="com.acs.admin.ds.entity.SysRole" useGeneratedKeys="true" keyProperty="id">
         insert into sys_role
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            
+
             <if test="id != null">
-            	id,
+                id,
             </if>
 
             <if test="insertTime != null">
-            	insert_time,
+                insert_time,
             </if>
 
             <if test="updateTime != null">
-            	update_time,
+                update_time,
             </if>
 
             <if test="roleName != null">
-            	role_name,
+                role_name,
             </if>
 
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            
+
             <if test="id != null">
                 #{id},
             </if>
@@ -76,7 +82,7 @@
     <update id="update" parameterType="com.acs.admin.ds.entity.SysRole">
         update sys_role
         <set>
-            
+
             <if test="id != null">
                 and id = #{id}
             </if>
