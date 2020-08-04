@@ -9,8 +9,18 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.jdbc.Driver
 
+# https://www.cnblogs.com/bestruggle/p/10050178.html
+logging:
+  level:
+    com:
+      acs:
+        admin:
+          ds:
+            dao: DEBUG
+
 mybatis:
   mapperLocations: classpath:mapper/*.xml
+  config: classpath:mybatis-config.xml
 
 shiro:
   web:

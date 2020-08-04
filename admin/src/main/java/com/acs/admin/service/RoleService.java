@@ -2,24 +2,22 @@ package com.acs.admin.service;
 
 import com.acs.admin.common.PageCondition;
 import com.acs.admin.common.PageModel;
-import com.acs.admin.ds.dao.SysRoleDao;
-import com.acs.admin.ds.entity.SysRole;
-import com.acs.admin.utils.Results;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.acs.admin.common.dto.PermissionDTO;
+import com.acs.admin.common.dto.RoleDTO;
 
-@Service
-public class RoleService {
+import java.util.List;
 
-    @Autowired
-    private SysRoleDao sysRoleDao;
+public interface RoleService {
 
-    public PageModel<SysRole> listAllRole(PageCondition condition) {
-        PageHelper.startPage(condition.getPageNum(), condition.getPageSize());
-        PageInfo<SysRole> pageInfo = new PageInfo<>(sysRoleDao.findAll());
-        return Results.pageModel(pageInfo);
-    }
+    PageModel<RoleDTO> listAllRole(PageCondition condition);
 
+    RoleDTO create(String roleName);
+
+    RoleDTO update(String roleName, Integer roleId);
+
+    void delete(Integer roleId);
+
+    PageModel<PermissionDTO> listRolePermissions(Integer roleId, PageCondition condition);
+
+    void assignPermissions(Integer roleId, List<Integer> permisIdList);
 }

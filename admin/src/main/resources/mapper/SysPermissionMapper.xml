@@ -2,28 +2,40 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.acs.admin.ds.dao.SysPermissionDao">
 
-	<resultMap id="BaseResultMap" type="com.acs.admin.ds.entity.SysPermission">
+    <resultMap id="BaseResultMap" type="com.acs.admin.ds.entity.SysPermission">
         <id column="id" jdbcType="INTEGER" property="id"/>
-		<result column="id" jdbcType="INTEGER" property="id"/>
-		<result column="insert_time" jdbcType="TIMESTAMP" property="insertTime"/>
-		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
-		<result column="permission_code" jdbcType="VARCHAR" property="permissionCode"/>
-		<result column="permission_name" jdbcType="VARCHAR" property="permissionName"/>
-	</resultMap>
+        <result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="insert_time" jdbcType="TIMESTAMP" property="insertTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="permission_code" jdbcType="VARCHAR" property="permissionCode"/>
+        <result column="permission_name" jdbcType="VARCHAR" property="permissionName"/>
+    </resultMap>
 
-	<sql id="Base_Column_List">
-        		id,
+    <sql id="Base_Column_List">
+        id,
 		insert_time,
 		update_time,
 		permission_code,
 		permission_name
-    </sql> 
+    </sql>
 
     <select id="find" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from sys_permission
         where id = #{id}
+    </select>
+
+    <select id="countByIds" resultType="java.lang.Integer">
+        select COUNT(*)
+        FROM sys_permission sp
+        WHERE sp.id IN
+        <foreach collection="permisIdList" item="k" open="(" separator="," close=")">#{k}</foreach>
+    </select>
+
+    <select id="findAll" resultType="com.acs.admin.common.dto.PermissionDTO">
+        select id, permission_name
+        from sys_permission
     </select>
 
     <delete id="delete" parameterType="java.lang.Integer">
@@ -35,30 +47,30 @@
     <insert id="insert" parameterType="com.acs.admin.ds.entity.SysPermission" useGeneratedKeys="true" keyProperty="id">
         insert into sys_permission
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            
+
             <if test="id != null">
-            	id,
+                id,
             </if>
 
             <if test="insertTime != null">
-            	insert_time,
+                insert_time,
             </if>
 
             <if test="updateTime != null">
-            	update_time,
+                update_time,
             </if>
 
             <if test="permissionCode != null">
-            	permission_code,
+                permission_code,
             </if>
 
             <if test="permissionName != null">
-            	permission_name,
+                permission_name,
             </if>
 
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            
+
             <if test="id != null">
                 #{id},
             </if>
@@ -86,7 +98,7 @@
     <update id="update" parameterType="com.acs.admin.ds.entity.SysPermission">
         update sys_permission
         <set>
-            
+
             <if test="id != null">
                 and id = #{id}
             </if>

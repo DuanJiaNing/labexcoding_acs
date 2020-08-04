@@ -26,6 +26,11 @@ public class Results {
         return rm;
     }
 
+    public static ResponseEntity accessDenied() {
+        ResponseEntity rm = new ResponseEntity("access denied", HttpStatus.FORBIDDEN);
+        return rm;
+    }
+
     public static <T extends Serializable> PageModel<T> pageModel(PageInfo<T> page) {
         if (page == null) {
             return new PageModel<>();

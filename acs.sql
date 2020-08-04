@@ -126,3 +126,14 @@ CREATE TABLE `notify`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_general_ci COMMENT ='通知表';
+
+# ######################################################################################################
+INSERT INTO `sys_permission`(id, permission_code, permission_name)
+VALUES (601, 'role:permission:list', '角色权限列表'),
+       (602, 'role:assign-permission', '分配权限给角色'),
+       (801, 'permission:list', '权限列表');
+
+INSERT INTO `sys_role_permission`(role_id, permission_id)
+VALUES (1, 601),
+       (1, 602),
+       (1, 801);

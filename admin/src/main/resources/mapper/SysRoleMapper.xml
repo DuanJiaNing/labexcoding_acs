@@ -24,10 +24,17 @@
         where id = #{id}
     </select>
 
-    <select id="findAll" resultType="com.acs.admin.ds.entity.SysRole">
+    <select id="findAll" resultType="com.acs.admin.common.dto.RoleDTO">
         select
         <include refid="Base_Column_List"/>
         from sys_role
+    </select>
+
+    <select id="findRolePermissions" resultType="com.acs.admin.common.dto.PermissionDTO">
+        select sp.id, sp.permission_name
+        from sys_role_permission srp
+                 left join sys_permission sp on sp.id = srp.permission_id
+        where srp.role_id = #{roleId}
     </select>
 
     <delete id="delete" parameterType="java.lang.Integer">
@@ -84,19 +91,19 @@
         <set>
 
             <if test="id != null">
-                and id = #{id}
+                id = #{id},
             </if>
 
             <if test="insertTime != null">
-                and insert_time = #{insertTime}
+                insert_time = #{insertTime},
             </if>
 
             <if test="updateTime != null">
-                and update_time = #{updateTime}
+                update_time = #{updateTime},
             </if>
 
             <if test="roleName != null">
-                and role_name = #{roleName}
+                role_name = #{roleName},
             </if>
 
         </set>
