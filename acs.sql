@@ -130,10 +130,13 @@ CREATE TABLE `notify`
 # ######################################################################################################
 INSERT INTO `sys_permission`(id, permission_code, permission_name)
 VALUES (601, 'role:permission:list', '角色权限列表'),
-       (602, 'role:assign-permission', '分配权限给角色'),
+       (602, 'role:assign-permission', '角色权限分配'),
        (801, 'permission:list', '权限列表');
 
 INSERT INTO `sys_role_permission`(role_id, permission_id)
 VALUES (1, 601),
        (1, 602),
        (1, 801);
+
+INSERT INTO `sys_permission`(id, permission_code, permission_name)
+    VALUE (901, 'user:assign-role', '用户角色分配');
