@@ -43,6 +43,12 @@
         WHERE username = #{username}
     </select>
 
+    <select id="findAll" resultType="com.acs.admin.common.dto.UserDTO">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_user
+    </select>
+
     <delete id="delete" parameterType="java.lang.Integer">
         delete
         from sys_user
@@ -70,7 +76,7 @@
             </if>
 
             <if test="password != null">
-                password,
+                `password`,
             </if>
 
             <if test="nickname != null">
@@ -113,27 +119,27 @@
         <set>
 
             <if test="id != null">
-                and id = #{id}
+                id = #{id},
             </if>
 
             <if test="insertTime != null">
-                and insert_time = #{insertTime}
+                insert_time = #{insertTime},
             </if>
 
             <if test="updateTime != null">
-                and update_time = #{updateTime}
+                update_time = #{updateTime},
             </if>
 
             <if test="username != null">
-                and username = #{username}
+                username = #{username},
             </if>
 
             <if test="password != null">
-                and password = #{password}
+                `password` = #{password},
             </if>
 
             <if test="nickname != null">
-                and nickname = #{nickname}
+                nickname = #{nickname},
             </if>
 
         </set>
