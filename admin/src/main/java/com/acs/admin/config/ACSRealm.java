@@ -38,7 +38,7 @@ public class ACSRealm extends AuthorizingRealm {
         if (CollectionUtils.isEmpty(ps)) {
             return null;
         }
-        return ps.stream().map(WildcardPermission::new).collect(Collectors.toList());
+        return ps.stream().distinct().map(WildcardPermission::new).collect(Collectors.toList());
     }
 
     @Override

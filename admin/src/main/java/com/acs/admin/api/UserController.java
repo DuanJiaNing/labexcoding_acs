@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.Serializable;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -21,6 +22,14 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @RequiresPermissions("user:assign-role")
+    @ApiOperation("用户角色分配")
+    @PutMapping("/user/{id}/role")
+    public ResponseEntity assignRole(@RequestBody List<Integer> roleIdList, @PathVariable Integer id) {
+        userService.assignRole(id, roleIdList);
+        return Results.success();
+    }
 
     @RequiresPermissions("user:list")
     @ApiOperation("用户列表")
@@ -31,7 +40,6 @@ public class UserController {
         PageModel<UserDTO> pageModel = userService.listAllUser(pc);
         return Results.success(pageModel);
     }
-
 
     @Data
     public static class AddUserRequest implements Serializable {

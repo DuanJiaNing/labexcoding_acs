@@ -37,6 +37,13 @@
         where srp.role_id = #{roleId}
     </select>
 
+    <select id="countByIds" resultType="java.lang.Integer">
+        select COUNT(*)
+        FROM sys_role sp
+        WHERE sp.id IN
+        <foreach collection="roleIdList" item="k" open="(" separator="," close=")">#{k}</foreach>
+    </select>
+
     <delete id="delete" parameterType="java.lang.Integer">
         delete
         from sys_role
