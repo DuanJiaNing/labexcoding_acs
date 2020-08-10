@@ -32,14 +32,17 @@ public class ACSRealm extends AuthorizingRealm {
         return authorizationInfo;
     }
 
-    private Collection<Permission> loadPermissions(PrincipalCollection principals) {
-        String username = (String) principals.getPrimaryPrincipal();
-        List<String> ps = sysUserDao.findAllPermissions(username);
-        if (CollectionUtils.isEmpty(ps)) {
-            return null;
-        }
-        return ps.stream().distinct().map(WildcardPermission::new).collect(Collectors.toList());
+private Collection<Permission> loadPermissions(PrincipalCollection principals) {
+    String username = (String) principals.getPrimaryPrincipal();
+    List<String> ps = sysUserDao.findAllPermissions(username);
+    if (CollectionUtils.isEmpty(ps)) {
+        return null;
     }
+    return ps.stream()
+            .distinct()
+            .map(WildcardPermission::new)
+            .collect(Collectors.toList());
+}
 
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {

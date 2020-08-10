@@ -138,5 +138,21 @@ VALUES (1, 601),
        (1, 602),
        (1, 801);
 
+# ######################################################################################################
 INSERT INTO `sys_permission`(id, permission_code, permission_name)
     VALUE (901, 'user:assign-role', '用户角色分配');
+
+INSERT INTO `sys_role_permission`(role_id, permission_id)
+VALUES (1, 901);
+
+# ######################################################################################################
+INSERT INTO `sys_role`(id, role_name)
+    VALUE (2, '角色分配管理员');
+
+INSERT INTO `sys_role_permission`(role_id, permission_id)
+VALUES (2, 301),
+       (2, 501),
+       (2, 901);
+
+# ######################################################################################################
+select sur.user_id, su.username, sur.role_id, sr.role_name from sys_user_role sur left join sys_user su on su.id = sur.user_id left join sys_role sr on sr.id = sur.role_id;
