@@ -17,6 +17,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
@@ -51,6 +52,7 @@ public class UserServiceImpl implements UserService {
         return Results.pageModel(pageInfo);
     }
 
+    @Transactional
     @Override
     public UserDTO create(String username, String password) {
         SysUser sr = new SysUser();
@@ -63,6 +65,7 @@ public class UserServiceImpl implements UserService {
         return DataConverter.map(sr, UserDTO.class);
     }
 
+    @Transactional
     @Override
     public UserDTO update(String username, Integer uid) {
         SysUser sr = new SysUser();
@@ -74,6 +77,7 @@ public class UserServiceImpl implements UserService {
         return DataConverter.map(sr, UserDTO.class);
     }
 
+    @Transactional
     @Override
     public void delete(Integer uid) {
         if (1 != sysUserDao.delete(uid)) {
@@ -81,6 +85,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Transactional
     @Override
     public void assignRole(Integer userId, List<Integer> roleIdList) {
         if (sysUserDao.find(userId) == null) {

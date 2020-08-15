@@ -17,13 +17,26 @@
 		update_time,
 		user_id,
 		content
-    </sql> 
+    </sql>
 
     <select id="find" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from notify
         where id = #{id}
+    </select>
+
+    <select id="findAll" resultType="com.acs.admin.common.dto.NotifyDTO">
+        select n.id, su.id as userId, su.username, n.content
+        from notify n
+                 left join sys_user su on su.id = n.user_id
+    </select>
+
+    <select id="findById" resultType="com.acs.admin.common.dto.NotifyDTO">
+        select n.id, su.id as userId, su.username, n.content
+        from notify n
+                 left join sys_user su on su.id = n.user_id
+        where n.id = #{id}
     </select>
 
     <delete id="delete" parameterType="java.lang.Integer">
@@ -35,7 +48,7 @@
     <insert id="insert" parameterType="com.acs.admin.ds.entity.Notify" useGeneratedKeys="true" keyProperty="id">
         insert into notify
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            
+
             <if test="id != null">
             	id,
             </if>
@@ -58,7 +71,7 @@
 
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            
+
             <if test="id != null">
                 #{id},
             </if>
@@ -86,25 +99,25 @@
     <update id="update" parameterType="com.acs.admin.ds.entity.Notify">
         update notify
         <set>
-            
+
             <if test="id != null">
-                and id = #{id}
+                id = #{id},
             </if>
 
             <if test="insertTime != null">
-                and insert_time = #{insertTime}
+                insert_time = #{insertTime},
             </if>
 
             <if test="updateTime != null">
-                and update_time = #{updateTime}
+                update_time = #{updateTime},
             </if>
 
             <if test="userId != null">
-                and user_id = #{userId}
+                user_id = #{userId},
             </if>
 
             <if test="content != null">
-                and content = #{content}
+                content = #{content},
             </if>
 
         </set>
