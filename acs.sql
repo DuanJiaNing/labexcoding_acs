@@ -155,4 +155,23 @@ VALUES (2, 301),
        (2, 901);
 
 # ######################################################################################################
-select sur.user_id, su.username, sur.role_id, sr.role_name from sys_user_role sur left join sys_user su on su.id = sur.user_id left join sys_role sr on sr.id = sur.role_id;
+select sur.user_id, su.username, sur.role_id, sr.role_name
+from sys_user_role sur
+         left join sys_user su on su.id = sur.user_id
+         left join sys_role sr on sr.id = sur.role_id;
+
+# ######################################################################################################
+INSERT INTO `sys_role`(id, role_name)
+    VALUE (3, '通知管理员');
+
+INSERT INTO `sys_role_permission`(role_id, permission_id)
+VALUES (3, 101),
+       (3, 102),
+       (3, 103),
+       (3, 104);
+
+INSERT INTO `sys_user`(id, username, password)
+    VALUE (10003, '小李', '1234cd');
+
+INSERT INTO `sys_user_role`(user_id, role_id)
+    VALUE (10003, 3);
